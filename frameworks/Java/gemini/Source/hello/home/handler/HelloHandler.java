@@ -1,7 +1,5 @@
 package hello.home.handler;
 
-import hello.home.entity.*;
-
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -10,11 +8,13 @@ import com.techempower.gemini.*;
 import com.techempower.gemini.path.*;
 import com.techempower.gemini.path.annotation.*;
 
+import hello.home.entity.*;
+
 /**
  * Handles the various framework benchmark request types.
  */
 public class HelloHandler
-    extends  MethodPathHandler<Context>
+    extends  MethodUriHandler<Context>
 {
 
   private static final int DB_ROWS = 10000;
@@ -33,8 +33,8 @@ public class HelloHandler
   /**
    * Return "hello world" as a JSON-encoded message.
    */
-  @PathSegment("json")
-  @PathDefault
+  @Path("json")
+  @Get
   public boolean helloworld()
   {
     return message("Hello, World!");
@@ -44,7 +44,8 @@ public class HelloHandler
    * Return a single World objects as JSON, selected randomly from the World
    * table.  Assume the table has 10,000 rows.
    */
-  @PathSegment
+  @Path("db")
+  @Get
   public boolean db()
   {
     return json(store.get(World.class, ThreadLocalRandom.current().nextInt(DB_ROWS) + 1));
@@ -54,7 +55,8 @@ public class HelloHandler
    * Return a list of World objects as JSON, selected randomly from the World
    * table.  Assume the table has 10,000 rows.
    */
-  @PathSegment("query")
+  @Path("query")
+  @Get
   public boolean multipleQueries()
   {
     final Random random = ThreadLocalRandom.current();
@@ -74,7 +76,8 @@ public class HelloHandler
    * fortune message text, and then render the results to simple HTML using a 
    * server-side template.
    */
-  @PathSegment
+  @Path("fortunes")
+  @Get
   public boolean fortunes()
   {
     final List<Fortune> fortunes = store.list(Fortune.class);
@@ -89,7 +92,8 @@ public class HelloHandler
    * randomNumber field updated and then the row will be persisted.  We
    * assume the table has 10,000 rows.
    */
-  @PathSegment
+  @Path("update")
+  @Get
   public boolean update()
   {
     final Random random = ThreadLocalRandom.current();
@@ -110,7 +114,8 @@ public class HelloHandler
   /**
    * Responds with a plaintext "Hello, World!" 
    */
-  @PathSegment
+  @Path("plaintext")
+  @Get
   public boolean plaintext()
   {
     return text("Hello, World!");
