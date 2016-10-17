@@ -7,3 +7,4 @@ resin-data
 Thread Dumps/
 .settings/
 build.properties
+.classpath
