@@ -4,7 +4,7 @@ installs
 node_modules/
 
 # Added for pedestal framework test
-lib/
+# lib/
 .lein-deps-sum
 
 # eclipse
