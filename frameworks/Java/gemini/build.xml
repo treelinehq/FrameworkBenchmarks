@@ -19,14 +19,13 @@
     <!-- Declare other variables which can be overridden in a personalized
          build.properties file. -->
     <property name="Resin" value="${Environment.RESIN_HOME}" />
-    <property name="GeminiHello" value="." />
     
     <!-- Compile the source into WEB-INF/classes. -->
-    <javac srcdir="${GeminiHello}/Source" destdir="${GeminiHello}/Docroot/WEB-INF/classes" includes="**/*">
+    <javac srcdir="Source" destdir="Docroot/WEB-INF/classes" includes="**/*">
       <classpath>
         <pathelement location="${Resin}/lib/javaee-16.jar" />
         <pathelement location="${Resin}/lib/resin.jar" />
-        <fileset dir="${GeminiHello}/Docroot/WEB-INF/lib">
+        <fileset dir="Docroot/WEB-INF/lib">
           <include name="**/*.jar" />
         </fileset>
      </classpath>
@@ -34,27 +33,7 @@
     
   </target>
   
-  <target name="servlet">
-    <!-- Build geminihello.jar. -->
-    <mkdir dir="temp/work" />
-    <javac srcdir="${GeminiHello}/Source" destdir="temp/work" includes="**/*">
-      <classpath>
-        <pathelement location="${Resin}/lib/javaee-16.jar" />
-        <pathelement location="${Resin}/lib/resin.jar" />
-        <fileset dir="${GeminiHello}/Docroot/WEB-INF/lib">
-          <include name="**/*.jar" />
-        </fileset>
-     </classpath>
-    </javac>
-    <jar jarfile="temp/geminihello" basedir="temp/work" />
-    <delete dir="temp/work" />
-    
-    <!-- Delete the temporary directory. -->
-    <delete dir="temp" />
-    
-  </target>
-  
-  <target name="undertow">
+  <target name="build" depends="compile">
     <jar destfile="gemini-undertow.jar">
       <zipgroupfileset dir="Docroot/WEB-INF/lib" includes="*.jar"/>
       <zipfileset dir="configuration" prefix="configuration" />
