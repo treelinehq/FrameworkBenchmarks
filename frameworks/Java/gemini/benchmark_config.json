@@ -2,7 +2,7 @@
   "framework": "gemini",
   "tests": [{
     "default": {
-      "setup_file": "start",
+      "setup_file": "setup_servlet",
       "json_url": "/json",
       "plaintext_url": "/plaintext",
       "port": 8080,
@@ -21,7 +21,7 @@
       "versus": "servlet"
     },
     "mysql": {
-      "setup_file": "start",
+      "setup_file": "setup_servlet",
       "db_url": "/db",
       "query_url": "/query?queries=",
       "fortune_url": "/fortunes",
@@ -42,7 +42,7 @@
       "versus": "servlet"
     },
     "postgres": {
-      "setup_file": "start_postgres",
+      "setup_file": "setup_servlet_postgres",
       "db_url": "/db",
       "query_url": "/query?queries=",
       "fortune_url": "/fortunes",
