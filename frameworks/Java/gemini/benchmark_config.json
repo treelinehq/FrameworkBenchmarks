@@ -61,6 +61,25 @@
       "display_name": "gemini-postgres",
       "notes": "",
       "versus": "servlet"
-    }   
+    },
+    "undertow" {
+      "setup_file": "setup_undertow",
+      "json_url": "/json",
+      "plaintext_url": "/plaintext",
+      "port": 8080,
+      "approach": "Realistic",
+      "classification": "Fullstack",
+      "database": "None",
+      "framework": "gemini",
+      "language": "Java",
+      "orm": "Micro",
+      "platform": "Servlet",
+      "webserver": "None",
+      "os": "Linux",
+      "database_os": "Linux",
+      "display_name": "gemini",
+      "notes": "",
+      "versus": "undertow"
+    }
   }]
 }
