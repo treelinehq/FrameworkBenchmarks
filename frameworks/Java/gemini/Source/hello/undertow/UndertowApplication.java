@@ -1,12 +1,12 @@
-package hello;
+package hello.undertow;
 
 import com.techempower.*;
 import com.techempower.gemini.*;
-import com.techempower.gemini.exceptionhandler.*;
 import com.techempower.gemini.path.*;
 import com.techempower.js.*;
 import com.techempower.js.legacy.*;
 
+import hello.*;
 import hello.home.entity.*;
 import hello.home.handler.*;
 
@@ -20,14 +20,14 @@ import hello.home.handler.*;
  *
  * @author mhixson
  */
-public class GhApplication
-     extends ResinGeminiApplication
+public class UndertowApplication
+     extends UndertowGeminiApplication
 {
   //
   // Static variables.
   //
 
-  private static final GhApplication INSTANCE = new GhApplication();
+  private static final UndertowApplication INSTANCE = new UndertowApplication();
 
   //
   // Member methods.
@@ -37,7 +37,7 @@ public class GhApplication
    * Constructor.  This method can be extended to construct references
    * to custom components for the application.
    */
-  public GhApplication()
+  public UndertowApplication()
   {
     super();
   }
@@ -76,7 +76,7 @@ public class GhApplication
     final PathDispatcher.Configuration<Context> config = new PathDispatcher.Configuration<>();
 
     config.setDefault(new HelloHandler(this))
-          .add(new BasicExceptionHandler(this));
+          .add(new LoggingExceptionHandler(this));
 
     return new PathDispatcher<>(this, config);
   }
@@ -85,7 +85,7 @@ public class GhApplication
   // Static methods.
   //
 
-  public static GhApplication getInstance()
+  public static UndertowApplication getInstance()
   {
     return INSTANCE;
   }

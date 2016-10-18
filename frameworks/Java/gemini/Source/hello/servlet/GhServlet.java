@@ -1,4 +1,4 @@
-package hello;
+package hello.servlet;
 
 import javax.servlet.annotation.*;
 
@@ -31,9 +31,9 @@ public class GhServlet
    * Gets a GeminiApplication object for this application.
    */
   @Override
-  public GhApplication getApplication()
+  public ServletApplication getApplication()
   {
-    return GhApplication.getInstance();
+    return ServletApplication.getInstance();
   }
 
 }   // End GhServlet.
