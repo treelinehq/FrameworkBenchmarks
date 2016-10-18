@@ -62,7 +62,7 @@
       "notes": "",
       "versus": "servlet"
     },
-    "undertow" {
+    "undertow": {
       "setup_file": "setup_undertow",
       "json_url": "/json",
       "plaintext_url": "/plaintext",
@@ -73,7 +73,7 @@
       "framework": "gemini",
       "language": "Java",
       "orm": "Micro",
-      "platform": "Servlet",
+      "platform": "Undertow",
       "webserver": "None",
       "os": "Linux",
       "database_os": "Linux",
