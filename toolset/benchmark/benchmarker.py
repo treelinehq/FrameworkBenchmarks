@@ -598,8 +598,8 @@ class Benchmarker:
           out.flush()
           self.__write_intermediate_results(test.name,"<setup.py>#start() returned non-zero")
           return exit_with_code(1)
-        # This moment better have the same running processes...
-        with open(os.path.join(logDir, 'after.txt'), 'w') as psfile:
+        # This moment has the processes started by our test
+        with open(os.path.join(logDir, 'during.txt'), 'w') as psfile:
           subprocess.check_call("ps -aux | sort -k 11 | awk '{print $11}'", stdout=psfile, shell=True)
 
         logging.info("Sleeping %s seconds to ensure framework is ready" % self.sleep)
@@ -662,6 +662,10 @@ class Benchmarker:
         out.write(header("Stopped %s" % test.name))
         out.flush()
         time.sleep(5)
+
+        # This moment should be the same list as prior to the test starting
+        with open(os.path.join(logDir, 'after.txt'), 'w') as psfile:
+          subprocess.check_call("ps -aux | sort -k 11 | awk '{print $11}'", stdout=psfile, shell=True)
 
         ##########################################################
         # Remove contents of  /tmp folder
