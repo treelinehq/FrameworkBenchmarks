@@ -587,6 +587,12 @@ class Benchmarker:
             print "Error: Unable to recover port, cannot start test"
             return exit_with_code(1)
 
+        # This is the moment we consider all running processes "normal"
+        ps = subprocess.Popen('ps -aux | sort -k 11', stdout=subprocess.PIPE)
+        processesBefore = ps.stdout.read()
+        out.write(header("Processes prior to start"))
+        out.write(processesBefore)
+        out.flush()
         result = test.start(out)
         if result != 0:
           self.__stop_test(out)
@@ -595,6 +601,12 @@ class Benchmarker:
           out.flush()
           self.__write_intermediate_results(test.name,"<setup.py>#start() returned non-zero")
           return exit_with_code(1)
+        # This moment better have the same running processes...
+        ps = subprocess.Popen('ps -aux | sort -k 11', stdout=subprocess.PIPE)
+        processesAfter = ps.stdout.read()
+        out.write(header("Processes after start"))
+        out.write(processesAfter)
+        out.flush()
 
         logging.info("Sleeping %s seconds to ensure framework is ready" % self.sleep)
         time.sleep(self.sleep)
