@@ -606,6 +606,7 @@ class Benchmarker:
         with open(os.path.join(logDir, 'during.txt'), 'w') as psfile:
           subprocess.call("ps -aux | sort -k 11 | awk '{print $11}'", stdout=psfile, shell=True)
         out.write(header("Processes started by %s" % test.name))
+        out.flush()
         subprocess.call('diff %s %s' % (os.path.join(logDir, 'before.txt'), os.path.join(logDir, 'during.txt')), stdout=out, shell=True)
         out.flush()
 
@@ -671,6 +672,7 @@ class Benchmarker:
         with open(os.path.join(logDir, 'after.txt'), 'w') as psfile:
           subprocess.call("ps -aux | sort -k 11 | awk '{print $11}'", stdout=psfile, shell=True)
         out.write(header("Processes not terminated by %s" % test.name))
+        out.flush()
         subprocess.call('diff %s %s' % (os.path.join(logDir, 'before.txt'), os.path.join(logDir, 'after.txt')), stdout=out, shell=True)
         out.flush()
 
