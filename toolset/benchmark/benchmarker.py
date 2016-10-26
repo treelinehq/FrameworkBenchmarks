@@ -598,12 +598,16 @@ class Benchmarker:
           out.flush()
           self.__write_intermediate_results(test.name,"<setup.py>#start() returned non-zero")
           return exit_with_code(1)
-        # This moment has the processes started by our test
-        with open(os.path.join(logDir, 'during.txt'), 'w') as psfile:
-          subprocess.check_call("ps -aux | sort -k 11 | awk '{print $11}'", stdout=psfile, shell=True)
 
         logging.info("Sleeping %s seconds to ensure framework is ready" % self.sleep)
         time.sleep(self.sleep)
+
+        # This moment has the processes started by our test
+        with open(os.path.join(logDir, 'during.txt'), 'w') as psfile:
+          subprocess.check_call("ps -aux | sort -k 11 | awk '{print $11}'", stdout=psfile, shell=True)
+        out.write(header("Processes started by %s" % test.name))
+        subprocess.check_call('diff %s %s' % (os.path.join(logDir, 'before.txt'), os.path.join(logDir, 'during.txt')), stdout=out, shell=True)
+        out.flush()
 
         ##########################
         # Verify URLs
@@ -666,6 +670,9 @@ class Benchmarker:
         # This moment should be the same list as prior to the test starting
         with open(os.path.join(logDir, 'after.txt'), 'w') as psfile:
           subprocess.check_call("ps -aux | sort -k 11 | awk '{print $11}'", stdout=psfile, shell=True)
+        out.write(header("Processes not terminated by %s" % test.name))
+        subprocess.check_call('diff %s %s' % (os.path.join(logDir, 'before.txt'), os.path.join(logDir, 'after.txt')), stdout=out, shell=True)
+        out.flush()
 
         ##########################################################
         # Remove contents of  /tmp folder
