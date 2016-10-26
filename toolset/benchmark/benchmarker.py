@@ -588,11 +588,8 @@ class Benchmarker:
             return exit_with_code(1)
 
         # This is the moment we consider all running processes "normal"
-        ps = subprocess.Popen('ps -aux | sort -k 11', stdout=subprocess.PIPE)
-        processesBefore = ps.stdout.read()
-        out.write(header("Processes prior to start"))
-        out.write(processesBefore)
-        out.flush()
+        with open(os.path.join(logDir, 'before.txt'), 'w') as psfile:
+          subprocess.check_call('ps -aux | sort -k 11', stdout=psfile, shell=True)
         result = test.start(out)
         if result != 0:
           self.__stop_test(out)
@@ -602,11 +599,8 @@ class Benchmarker:
           self.__write_intermediate_results(test.name,"<setup.py>#start() returned non-zero")
           return exit_with_code(1)
         # This moment better have the same running processes...
-        ps = subprocess.Popen('ps -aux | sort -k 11', stdout=subprocess.PIPE)
-        processesAfter = ps.stdout.read()
-        out.write(header("Processes after start"))
-        out.write(processesAfter)
-        out.flush()
+        with open(os.path.join(logDir, 'after.txt'), 'w') as psfile:
+          subprocess.check_call('ps -aux | sort -k 11', stdout=psfile, shell=True)
 
         logging.info("Sleeping %s seconds to ensure framework is ready" % self.sleep)
         time.sleep(self.sleep)
