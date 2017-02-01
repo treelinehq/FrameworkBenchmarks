@@ -1,5 +1,8 @@
 {
-  "generators": {
-    "modules": {}
+  "hooks": {
+    "session": false,
+    "sockets": false,
+    "i18n": false,
+    "blueprints": false
   }
 }
