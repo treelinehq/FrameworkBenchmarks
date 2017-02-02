@@ -35,25 +35,19 @@ module.exports.http = {
       'bodyParser',
       // 'compress',
       // 'poweredBy',
+      'disablePoweredBy',
       'router',
       'www',
       'favicon',
     ],
 
-
-    /***************************************************************************
-    *                                                                          *
-    * The body parser that will handle incoming multipart HTTP requests.       *
-    *                                                                          *
-    * http://sailsjs.com/config/http#?customizing-the-body-parser              *
-    *                                                                          *
-    ***************************************************************************/
-
-    // bodyParser: (function _configureBodyParser(){
-    //   var skipper = require('skipper');
-    //   var middlewareFn = skipper({ strict: true });
-    //   return middlewareFn;
-    // })(),
+    // Replacing the x-powered-by header with the expected
+    // server header for TFB
+    disablePoweredBy: function(req, res, next) {
+      res.removeHeader('x-powered-by');
+      res.set('Server', 'Sails <sailsjs.org>');
+      next();
+    }
 
   },
 
