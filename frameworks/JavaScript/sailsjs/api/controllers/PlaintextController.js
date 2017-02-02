@@ -3,8 +3,10 @@ module.exports = {
 
   test: function(req, res) {
 
-    res.set('Server', 'Sails <sailsjs.com>');
+    // Set the content-type header as per the test specification.
     res.set('content-type', 'text/plain');
+
+    // Send back the text string as per the test specification.
     return res.send(text);
 
   }
