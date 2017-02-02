@@ -20,6 +20,9 @@
  *   http://sailsjs.com/anatomy/app.js
  */
 
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
+
 
 // Ensure we're in the project directory, so cwd-relative paths work as expected
 // no matter where we actually lift from.
@@ -47,6 +50,16 @@ try {
   return;
 }//-•
 
+if (cluster.isMaster) {
+  // Fork workers.
+  for (var i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
 
-// Start server
-sails.lift(rc('sails'));
+  cluster.on('exit', function(worker, code, signal) {
+    console.log('worker ' + worker.pid + ' died');
+  });
+} else {
+  // Start server
+  sails.lift(rc('sails'));
+}
